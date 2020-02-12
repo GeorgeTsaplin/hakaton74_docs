@@ -1,0 +1,1042 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "CTI Outbound Management WebApi",
+    "version": "v1"
+  },
+  "paths": {
+    "/api/Campaigns": {
+      "get": {
+        "tags": [
+          "Campaigns"
+        ],
+        "summary": "Gets all campaigns, that current user granted to",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/CampaignInfo"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/Campaigns/{id}": {
+      "get": {
+        "tags": [
+          "Campaigns"
+        ],
+        "summary": "Gets campaign by specified id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "campaign's id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Campaign"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "User does not have permission to view campaign"
+          },
+          "404": {
+            "description": "Campaign with specified id not found"
+          }
+        }
+      }
+    },
+    "/api/Contacts/{id}": {
+      "get": {
+        "tags": [
+          "Contacts"
+        ],
+        "summary": "Gets contact by specified id",
+        "operationId": "Get",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "contact's id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Contact"
+            }
+          },
+          "403": {
+            "description": "User does not have permission to contact's campaign"
+          },
+          "404": {
+            "description": "Contact with specified id not found"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Contacts"
+        ],
+        "summary": "Patches contact with specified id",
+        "description": "Sample request:\r\n\r\n[\r\n  {\r\n    \"op\": \"replace\",\r\n    \"path\": \"/calllist\",\r\n    \"value\": \"calllist#1\"\r\n  },\r\n  {\r\n    \"op\": \"replace\",\r\n    \"path\": \"/state\",\r\n    \"value\": 110\r\n  },\r\n  {\r\n    \"op\": \"replace\",\r\n    \"path\": \"/timeZoneInfoName\",\r\n    \"value\": \"UTC\"\r\n  },\r\n]",
+        "operationId": "Patch",
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json",
+          "application/xml",
+          "text/xml",
+          "application/*+xml"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "contact's id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "PATCH update model",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/UpdateModel"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Contact"
+            }
+          },
+          "403": {
+            "description": "User does not have permission to contact's campaign"
+          },
+          "404": {
+            "description": "Contact with specified id not found"
+          },
+          "400": {
+            "description": "Mallformed update model"
+          }
+        }
+      }
+    },
+    "/api/Contacts/{id}/phones": {
+      "get": {
+        "tags": [
+          "Contacts"
+        ],
+        "summary": "Gets contact's phones",
+        "operationId": "GetPhones",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "contact id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Phone"
+              }
+            }
+          },
+          "403": {
+            "description": "User does not have permission to contact's campaign"
+          },
+          "404": {
+            "description": "Contact with specified id not found"
+          }
+        }
+      }
+    },
+    "/api/Contacts/{id}/attributes": {
+      "get": {
+        "tags": [
+          "Contacts"
+        ],
+        "summary": "Gets contact's custom\\user attributes",
+        "operationId": "GetAttributes",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "contact id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/UserAttribute"
+              }
+            }
+          },
+          "403": {
+            "description": "User does not have permission to contact's campaign"
+          },
+          "404": {
+            "description": "Contact with specified id not found"
+          }
+        }
+      }
+    },
+    "/api/Contacts/filters": {
+      "post": {
+        "tags": [
+          "Contacts"
+        ],
+        "summary": "Creates filter for future operations upon selected contacts",
+        "operationId": "CreateFilter",
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json",
+          "application/xml",
+          "text/xml",
+          "application/*+xml"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "filter",
+            "schema": {
+              "$ref": "#/definitions/ContactFilter"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "201": {
+            "description": "Filter created and it's URI can be found at Location header",
+            "schema": {
+              "$ref": "#/definitions/ContactFilterFilterData"
+            }
+          },
+          "400": {
+            "description": "Mallformed filter"
+          },
+          "403": {
+            "description": "User does not have permission to specified campaign"
+          }
+        }
+      }
+    },
+    "/api/Contacts/filters/{id}/info": {
+      "get": {
+        "tags": [
+          "Contacts"
+        ],
+        "summary": "Gets information about previously created filter",
+        "operationId": "GetFilter",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "filter id",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/ContactFilterFilterData"
+            }
+          },
+          "404": {
+            "description": "Specified filter not found"
+          }
+        }
+      }
+    },
+    "/api/Contacts/filters/{id}": {
+      "get": {
+        "tags": [
+          "Contacts"
+        ],
+        "summary": "Gets contacts by previously created filter",
+        "operationId": "GetContactsByFilter",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "filter id",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "limit",
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "description": "offser",
+            "type": "integer",
+            "format": "int32",
+            "default": 0
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ContactInfo"
+              }
+            }
+          },
+          "404": {
+            "description": "Specified filter not found"
+          },
+          "403": {
+            "description": "User does not have permission to specified campaign"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Contacts"
+        ],
+        "summary": "Patches contacts by previously created filter",
+        "description": "Sample request:\r\n\r\n[\r\n  {\r\n    \"op\": \"replace\",\r\n    \"path\": \"/calllist\",\r\n    \"value\": \"calllist#1\"\r\n  },\r\n  {\r\n    \"op\": \"replace\",\r\n    \"path\": \"/state\",\r\n    \"value\": 110\r\n  }\r\n]",
+        "operationId": "PatchContactsByFilter",
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json",
+          "application/xml",
+          "text/xml",
+          "application/*+xml"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "filter id",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "PATCH update model",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/UpdateModel"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Int32BatchResult"
+              }
+            }
+          },
+          "403": {
+            "description": "User does not have permission to contact's campaign"
+          },
+          "404": {
+            "description": "Specified filter not found"
+          },
+          "400": {
+            "description": "Mallformed update model"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Script": {
+      "required": [
+        "id",
+        "name"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "name": {
+          "maxLength": 100,
+          "type": "string"
+        }
+      }
+    },
+    "CampaignInfo": {
+      "required": [
+        "active",
+        "gid",
+        "id",
+        "name",
+        "script"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "name": {
+          "maxLength": 100,
+          "type": "string"
+        },
+        "gid": {
+          "maxLength": 100,
+          "type": "string"
+        },
+        "active": {
+          "type": "boolean"
+        },
+        "script": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/Script"
+            }
+          ]
+        }
+      }
+    },
+    "CallVariables": {
+      "type": "object",
+      "properties": {
+        "scriptName": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "contactID": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "phoneNumber": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "agentNumber": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "agentId": {
+          "format": "int32",
+          "type": "integer"
+        }
+      }
+    },
+    "Campaign": {
+      "required": [
+        "agentGroup",
+        "answeringMachineTransferPhoneNumber",
+        "dateFrom",
+        "dateTo",
+        "description",
+        "detectionType ",
+        "directAgentCallInPreview",
+        "faxTransferPhoneNumber",
+        "gid",
+        "greetingMessageName",
+        "id",
+        "incomingSkillGroup",
+        "isGreetingMessagePlayed",
+        "maxNuisanceLevel",
+        "name",
+        "nuisanceTime",
+        "outboundCallsPriority",
+        "parkClientCallToIVRInPredictive",
+        "previewDelayBeforeClientCall",
+        "scheduleId",
+        "script",
+        "scriptLimit",
+        "tBreath",
+        "variableMapId",
+        "waitAgentPickUpThePhone",
+        "workflowId"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "name": {
+          "maxLength": 100,
+          "type": "string"
+        },
+        "gid": {
+          "maxLength": 100,
+          "type": "string"
+        },
+        "description": {
+          "maxLength": 4000,
+          "type": "string"
+        },
+        "script": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/Script"
+            }
+          ]
+        },
+        "scriptLimit": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "agentGroup": {
+          "maxLength": 4000,
+          "type": "string"
+        },
+        "workflowId": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "dateFrom": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "dateTo": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "enabled": {
+          "default": false,
+          "type": "boolean"
+        },
+        "variableMapId": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "scheduleId": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "nuisanceTime": {
+          "format": "int32",
+          "maximum": 32767,
+          "minimum": -1,
+          "type": "integer"
+        },
+        "maxNuisanceLevel": {
+          "format": "int32",
+          "maximum": 4,
+          "minimum": -5,
+          "type": "integer"
+        },
+        "blendedMode": {
+          "type": "boolean"
+        },
+        "outboundCallsPriority": {
+          "type": "boolean"
+        },
+        "parkClientCallToIVRInPredictive": {
+          "type": "boolean"
+        },
+        "callVariables": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/CallVariables"
+            }
+          ]
+        },
+        "incomingSkillGroup": {
+          "maxLength": 4000,
+          "type": "string"
+        },
+        "detectionType ": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "faxTransferPhoneNumber": {
+          "maxLength": 40,
+          "type": "string"
+        },
+        "answeringMachineTransferPhoneNumber": {
+          "maxLength": 40,
+          "type": "string"
+        },
+        "directAgentCallInPreview": {
+          "type": "boolean"
+        },
+        "previewDelayBeforeClientCall": {
+          "format": "int32",
+          "maximum": 2147483647,
+          "minimum": 0,
+          "type": "integer"
+        },
+        "greetingMessageName": {
+          "maxLength": 255,
+          "type": "string"
+        },
+        "isGreetingMessagePlayed": {
+          "type": "boolean"
+        },
+        "waitAgentPickUpThePhone": {
+          "type": "boolean"
+        },
+        "tBreath": {
+          "format": "int32",
+          "maximum": 32767,
+          "minimum": 0,
+          "type": "integer"
+        }
+      }
+    },
+    "Phone": {
+      "required": [
+        "number",
+        "phoneKindGID"
+      ],
+      "type": "object",
+      "properties": {
+        "phoneId": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "phoneGID": {
+          "type": "string"
+        },
+        "phoneKindGID": {
+          "type": "string"
+        },
+        "phoneStateID": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "number": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "nextCallTime": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "dueTo": {
+          "format": "date-time",
+          "type": "string"
+        }
+      }
+    },
+    "UserAttribute": {
+      "required": [
+        "gid",
+        "value"
+      ],
+      "type": "object",
+      "properties": {
+        "gid": {
+          "type": "string"
+        },
+        "value": {
+          "minLength": 1,
+          "type": "string"
+        }
+      }
+    },
+    "Contact": {
+      "required": [
+        "firstName",
+        "lastName",
+        "phones",
+        "timeZoneInfoName"
+      ],
+      "type": "object",
+      "properties": {
+        "phones": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Phone"
+          }
+        },
+        "userAttributes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/UserAttribute"
+          }
+        },
+        "id": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "campaign": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "firstName": {
+          "maxLength": 100,
+          "type": "string"
+        },
+        "middleName": {
+          "maxLength": 100,
+          "type": "string"
+        },
+        "lastName": {
+          "maxLength": 100,
+          "type": "string"
+        },
+        "nextCallTime": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "agentId": {
+          "type": "string"
+        },
+        "contactGid": {
+          "type": "string"
+        },
+        "timeZoneInfoName": {
+          "type": "string"
+        },
+        "priority": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "type": {
+          "type": "string"
+        },
+        "groupName": {
+          "type": "string"
+        },
+        "skGid1": {
+          "type": "string"
+        },
+        "skGid2": {
+          "type": "string"
+        },
+        "skGid3": {
+          "type": "string"
+        },
+        "state": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "businessResult": {
+          "type": "string"
+        },
+        "callList": {
+          "type": "string"
+        },
+        "failCount": {
+          "format": "int32",
+          "maximum": 2147483647,
+          "minimum": 0,
+          "type": "integer"
+        }
+      }
+    },
+    "UpdateModel": {
+      "required": [
+        "op",
+        "path"
+      ],
+      "type": "object",
+      "properties": {
+        "op": {
+          "type": "string"
+        },
+        "path": {
+          "type": "string"
+        },
+        "value": {
+          "type": "object"
+        }
+      }
+    },
+    "ContactCampaignKey": {
+      "description": "Contact's campaign key.",
+      "type": "object",
+      "properties": {
+        "campaignId": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "skGid1": {
+          "type": "string"
+        },
+        "skGid2": {
+          "type": "string"
+        },
+        "skGid3": {
+          "type": "string"
+        }
+      }
+    },
+    "ListType": {
+      "format": "int32",
+      "enum": [
+        0,
+        1
+      ],
+      "type": "integer"
+    },
+    "List": {
+      "required": [
+        "type",
+        "values"
+      ],
+      "type": "object",
+      "properties": {
+        "type": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/ListType"
+            }
+          ]
+        },
+        "values": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "ContactFilter": {
+      "required": [
+        "campaignKey"
+      ],
+      "type": "object",
+      "properties": {
+        "campaignKey": {
+          "description": "Contact's campaign key",
+          "allOf": [
+            {
+              "$ref": "#/definitions/ContactCampaignKey"
+            }
+          ]
+        },
+        "values": {
+          "description": "Collection of contact's internal or external identifiers",
+          "allOf": [
+            {
+              "$ref": "#/definitions/List"
+            }
+          ]
+        },
+        "callList": {
+          "description": "Contact's call list",
+          "type": "string"
+        },
+        "states": {
+          "description": "Collection of contact's states",
+          "type": "array",
+          "items": {
+            "format": "int32",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "ContactFilterFilterData": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "filter": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/ContactFilter"
+            }
+          ]
+        },
+        "createdBy": {
+          "type": "string"
+        },
+        "createdAt": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "expires": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "rowCount": {
+          "format": "int64",
+          "type": "integer"
+        }
+      }
+    },
+    "ContactInfo": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "campaign": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "middleName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "contactGid": {
+          "type": "string"
+        },
+        "state": {
+          "format": "int32",
+          "type": "integer"
+        }
+      }
+    },
+    "ErrorType": {
+      "format": "int32",
+      "enum": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "type": "integer"
+    },
+    "Error": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/ErrorType"
+            }
+          ]
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "Int32BatchResult": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "errors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Error"
+          }
+        }
+      }
+    }
+  }
+}
